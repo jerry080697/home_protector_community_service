@@ -35,3 +35,17 @@ out/
 
 ### VS Code ###
 .vscode/
+
+*.yml
+
+# .yml 파일을 무시하지 않도록 설정
+!.github/workflows/*.yml
+!.github/ISSUE_TEMPLATE/*.yml
+
+# appspec.yml 무시하지 않음
+!appspec.yml
+
+### MAC OS ###
+.DS_Store
+.AppleDouble
+.LSOverride
