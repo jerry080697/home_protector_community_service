@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      on-profile: aws
+
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        auto_quote_keyword: false
+        globally_quoted_identifiers: false
+        format_sql: true
+        show_sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: INFO
+
+jwt:
+  key: secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey
+  success : "http://localhost:3000"
