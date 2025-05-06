@@ -3,24 +3,13 @@ spring:
     activate:
       on-profile: dev
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/gdg?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        auto_quote_keyword: false
-        globally_quoted_identifiers: false
-        format_sql: true
-        show_sql: true
+  data:
+    mongodb:
+      uri: mongodb+srv://root:1234@mycluster.iehorij.mongodb.net
+      database: community
 
 logging:
   level:
     root: INFO
     org.springframework.security: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG  # MongoDB 쿼리 로그 보기
