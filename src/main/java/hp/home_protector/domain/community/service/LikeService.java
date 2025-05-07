@@ -7,7 +7,6 @@ import hp.home_protector.domain.community.repository.PostRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 
 @Service
@@ -20,6 +19,7 @@ public class LikeService {
         this.postRepository = postRepository;
     }
 
+    //게시글 좋아요
     @Transactional
     public long likePost(String userIdHex, String postIdHex) {
         ObjectId userId = new ObjectId(userIdHex);
@@ -44,6 +44,7 @@ public class LikeService {
         return post.getLikeCount();
     }
 
+    //게시글 좋아요 취소
     @Transactional
     public long unlikePost(String userIdHex, String postIdHex) {
         ObjectId userId = new ObjectId(userIdHex);

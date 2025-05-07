@@ -1,10 +1,10 @@
 package hp.home_protector.domain.community.dto;
 
-
 import hp.home_protector.domain.community.entity.BoardType;
+import lombok.*;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
 import java.util.List;
 
 @Getter
@@ -12,13 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostRequestDTO {
+public class PostUpdateRequestDTO {
     @NotBlank
     private String title;
     @NotBlank
     private String content;
     @NotNull
     private BoardType boardType;
-    private List<@NotBlank String> attachments;
-
+    private List<String> attachments;
 }

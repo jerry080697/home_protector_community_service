@@ -15,7 +15,6 @@ public class ApiResponse<T> {
         this.message = message;
         this.result = result;
     }
-
     public static <T> ApiResponse<T> success(String code, String message, T result) {
         return new ApiResponse<>(code, message, result);
     }

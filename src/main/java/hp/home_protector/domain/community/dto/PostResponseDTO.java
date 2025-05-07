@@ -2,7 +2,6 @@ package hp.home_protector.domain.community.dto;
 
 import hp.home_protector.domain.community.entity.BoardType;
 import lombok.*;
-
 import java.util.List;
 
 @Getter
