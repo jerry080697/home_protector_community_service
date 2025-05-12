@@ -1,4 +1,4 @@
-package hp.home_protector.domain.community.entity;
+package hp.home_protector.domain.community.entity.monoDB;
 
 import lombok.Getter;
 import lombok.Setter;
