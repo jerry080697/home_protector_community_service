@@ -1,7 +1,7 @@
 package hp.home_protector.domain.community.repository;
 
 
-import hp.home_protector.domain.community.entity.User;
+import hp.home_protector.domain.community.entity.mongoDB.User;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

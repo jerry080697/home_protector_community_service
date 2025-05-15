@@ -5,6 +5,8 @@ import hp.home_protector.domain.community.entity.BoardType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Getter
@@ -18,7 +20,7 @@ public class PostRequestDTO {
     @NotBlank
     private String content;
     @NotNull
-    private BoardType boardType;
-    private List<@NotBlank String> attachments;
+    private BoardType category;
+    private List<MultipartFile> attachments;
 
 }
