@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -22,10 +21,14 @@ public class PostEsDocument {
     @Field(type = FieldType.Keyword)
     private BoardType boardType;
 
-    @Field(type = FieldType.Text, analyzer = "korean")
+    @Field(type = FieldType.Text,
+            analyzer = "nori",
+            searchAnalyzer = "nori")
     private String title;
 
-    @Field(type = FieldType.Text, analyzer = "korean")
+    @Field(type = FieldType.Text,
+            analyzer = "nori",
+            searchAnalyzer = "nori")
     private String content;
 
     @Field(type = FieldType.Keyword)

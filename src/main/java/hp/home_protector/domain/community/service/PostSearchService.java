@@ -4,6 +4,7 @@ import hp.home_protector.domain.community.dto.PostResponseDTO;
 import hp.home_protector.domain.community.entity.BoardType;
 import hp.home_protector.domain.community.entity.elasticsearch.PostEsDocument;
 import hp.home_protector.domain.community.repository.PostEsRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,3 +36,4 @@ public class PostSearchService {
                 ).collect(Collectors.toList());
     }
 }
+

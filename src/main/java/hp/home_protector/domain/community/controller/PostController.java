@@ -9,6 +9,7 @@ import hp.home_protector.domain.community.service.PostService;
 import hp.home_protector.domain.community.service.StorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.GET;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -224,7 +225,5 @@ public class PostController {
         List<PostResponseDTO> results = postSearchService.search(keyword, category);
         return ApiResponse.success("COMMON200", "검색 결과입니다.", results);
     }
-
-
 
 }
