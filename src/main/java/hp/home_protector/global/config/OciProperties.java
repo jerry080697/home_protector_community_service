@@ -1,0 +1,14 @@
+package hp.home_protector.global.config;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Data
+@Component
+@ConfigurationProperties(prefix = "oci.objectstorage")
+public class OciProperties {
+    private String region;
+    private String namespace;
+    private String bucket;
+}

@@ -1,7 +1,7 @@
 package hp.home_protector.domain.community.service;
 
-import hp.home_protector.domain.community.entity.Like;
-import hp.home_protector.domain.community.entity.Post;
+import hp.home_protector.domain.community.entity.mongoDB.Like;
+import hp.home_protector.domain.community.entity.mongoDB.Post;
 import hp.home_protector.domain.community.repository.LikeRepository;
 import hp.home_protector.domain.community.repository.PostRepository;
 import org.bson.types.ObjectId;
@@ -50,15 +50,11 @@ public class LikeService {
         ObjectId userId = new ObjectId(userIdHex);
         ObjectId postId = new ObjectId(postIdHex);
 
-        // 1) 좋아요 기록이 없다면 에러
         if (!likeRepository.existsByUserIdAndPostId(userId, postId)) {
             throw new IllegalStateException("좋아요를 누르지 않은 게시글입니다.");
         }
-
-        // 2) Like 컬렉션에서 삭제
         likeRepository.deleteByUserIdAndPostId(userId, postId);
 
-        // 3) Post.likeCount 감소 (0 이하로 내려가지 않도록)
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         int newCount = Math.max(0, post.getLikeCount() - 1);
