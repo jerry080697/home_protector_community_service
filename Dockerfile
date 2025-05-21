@@ -22,6 +22,6 @@ FROM openjdk:17.0.1-jdk-slim
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar /app/guide-server.jar
+COPY --from=build /app/build/libs/*.jar /app/community-server.jar
 
-ENTRYPOINT ["java","-jar","/app/guide-server.jar"]
+ENTRYPOINT ["java","-jar","/app/community-server.jar"]
