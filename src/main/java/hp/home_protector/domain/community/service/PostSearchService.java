@@ -16,11 +16,6 @@ public class PostSearchService {
     public PostSearchService(PostEsRepository esRepo) {
         this.esRepo = esRepo;
     }
-
-    /**
-     * boardType(FREE 또는 INFO) 에서
-     * title 이나 content 에 keyword 가 포함된 문서만 조회
-     */
     public List<PostResponseDTO> search(String keyword, BoardType category) {
         return esRepo.findByTitleContainingOrContentContaining(keyword, keyword)
                 .stream()
@@ -36,4 +31,3 @@ public class PostSearchService {
                 ).collect(Collectors.toList());
     }
 }
-

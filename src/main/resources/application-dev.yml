@@ -4,8 +4,8 @@ spring:
       on-profile: dev
   servlet:
     multipart:
-      max-file-size: 10MB      # 개별 파일 최대 50MB
-      max-request-size: 100MB  # 전체 요청(여러 파일 합산) 최대 200MB
+      max-file-size: 10MB      # 개별 파일 최대 10MB
+      max-request-size: 100MB  # 전체 요청(여러 파일 합산) 최대 100MB
   data:
     mongodb:
       uri: mongodb+srv://root:1234@mycluster.iehorij.mongodb.net
@@ -22,4 +22,4 @@ logging:
   level:
     root: INFO
     org.springframework.security: DEBUG
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG  # MongoDB 쿼리 로그 보기
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG

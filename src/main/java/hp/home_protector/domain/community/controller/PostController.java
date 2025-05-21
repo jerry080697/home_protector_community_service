@@ -9,7 +9,6 @@ import hp.home_protector.domain.community.service.PostService;
 import hp.home_protector.domain.community.service.StorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +28,6 @@ public class PostController {
         this.storageService = storageService;
         this.postSearchService = postSearchService;
     }
-
 
     //게시글 작성
     @Operation(
@@ -143,6 +141,7 @@ public class PostController {
                 .build();
         return ApiResponse.success("COMMON200", "게시글이 수정되었습니다.", result);
     }
+
 
     //게시글 삭제
     @Operation(

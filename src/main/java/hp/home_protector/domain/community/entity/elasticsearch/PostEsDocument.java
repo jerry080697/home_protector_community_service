@@ -10,7 +10,11 @@ import java.util.List;
 
 @Document(indexName = "posts")
 @Setting(settingPath = "/es-settings.json")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PostEsDocument {
     @Id
     private String postId;
@@ -40,3 +44,5 @@ public class PostEsDocument {
     @Field(type = FieldType.Date, format = DateFormat.date_time)
     private OffsetDateTime createdAt;
 }
+
+
