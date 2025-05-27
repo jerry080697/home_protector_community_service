@@ -20,7 +20,7 @@ public class Post {
     private ObjectId postId;
     private BoardType boardType;
     @Indexed
-    private ObjectId userId;
+    private String userId;
     private String title;
     private String content;
     private List<String> attachments;

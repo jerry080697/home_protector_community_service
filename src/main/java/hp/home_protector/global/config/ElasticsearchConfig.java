@@ -20,14 +20,10 @@ public class ElasticsearchConfig {
 
     @Value("${spring.elasticsearch.uris}")
     private String esUris;
-
-    /** 1) Low-level REST client */
     @Bean
     public RestClient restClient() {
         return RestClient.builder(HttpHost.create(esUris)).build();
     }
-
-    /** 2) ELC용 ElasticsearchClient */
     @Bean
     public ElasticsearchClient elasticsearchClient(RestClient restClient) {
         ElasticsearchTransport transport = new RestClientTransport(

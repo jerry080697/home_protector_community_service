@@ -15,7 +15,6 @@ import java.io.IOException;
 public class OciConfig {
     @Value("${oci.objectstorage.region}")
     private String region;
-
     @Bean
     public ObjectStorage objectStorageClient() {
         try {
