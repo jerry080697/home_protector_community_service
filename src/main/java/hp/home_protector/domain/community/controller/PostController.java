@@ -202,4 +202,13 @@ public class PostController {
         List<PostResponseDTO> results = postSearchService.search(keyword);
         return ApiResponse.success("COMMON200", "검색 결과", results);
     }
+    @Operation(summary = "게시글 상세 조회 API", description = "게시글 ID로 상세 정보 조회")
+    @GetMapping("/detail/{postId}")
+    public ApiResponse<PostDetailResponseDTO> getPostDetail(@PathVariable String postId) {
+        if (!ObjectId.isValid(postId)) {
+            throw new IllegalArgumentException("Invalid postId format");
+        }
+        PostDetailResponseDTO result = postService.getPostDetail(postId);
+        return ApiResponse.success("COMMON200", "게시글 상세 조회 성공", result);
+    }
 }
