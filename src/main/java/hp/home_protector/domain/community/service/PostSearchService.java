@@ -1,11 +1,10 @@
 package hp.home_protector.domain.community.service;
 
 import hp.home_protector.domain.community.dto.PostResponseDTO;
-import hp.home_protector.domain.community.entity.BoardType;
 import hp.home_protector.domain.community.entity.elasticsearch.PostEsDocument;
 import hp.home_protector.domain.community.repository.PostEsRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,12 @@ public class PostSearchService {
     public PostSearchService(PostEsRepository esRepo) {
         this.esRepo = esRepo;
     }
-    public List<PostResponseDTO> search(String keyword, BoardType category) {
+
+    /**
+     * 키워드 기반 전체 검색
+     * 카테고리 파라미터 없이, title 또는 content 에 키워드가 포함된 문서를 반환
+     */
+    public List<PostResponseDTO> search(String keyword) {
         return esRepo.findByTitleContainingOrContentContaining(keyword, keyword)
                 .stream()
                 .map(doc -> PostResponseDTO.builder()
@@ -28,6 +32,7 @@ public class PostSearchService {
                         .attachments(doc.getAttachments())
                         .likeCount(doc.getLikeCount())
                         .build()
-                ).collect(Collectors.toList());
+                )
+                .collect(Collectors.toList());
     }
 }

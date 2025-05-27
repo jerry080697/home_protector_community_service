@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Document("users")
 public class User {
     @Id
-    private ObjectId userId;
+    private String userId;
     @Indexed(unique = true)
     private String username;
     private String password;

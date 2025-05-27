@@ -7,6 +7,7 @@ import hp.home_protector.domain.community.repository.PostRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -19,10 +20,10 @@ public class LikeService {
         this.postRepository = postRepository;
     }
 
-    //게시글 좋아요
+    // 게시글 좋아요
     @Transactional
-    public long likePost(String userIdHex, String postIdHex) {
-        ObjectId userId = new ObjectId(userIdHex);
+    public long likePost(String userId, String postIdHex) {
+        // userId는 이미 String이므로 변환 없이 사용
         ObjectId postId = new ObjectId(postIdHex);
 
         if (likeRepository.existsByUserIdAndPostId(userId, postId)) {
@@ -44,10 +45,10 @@ public class LikeService {
         return post.getLikeCount();
     }
 
-    //게시글 좋아요 취소
+    // 게시글 좋아요 취소
     @Transactional
-    public long unlikePost(String userIdHex, String postIdHex) {
-        ObjectId userId = new ObjectId(userIdHex);
+    public long unlikePost(String userId, String postIdHex) {
+        // userId는 String
         ObjectId postId = new ObjectId(postIdHex);
 
         if (!likeRepository.existsByUserIdAndPostId(userId, postId)) {

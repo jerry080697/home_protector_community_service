@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 
 @Service
 public class PostIndexService {
@@ -25,13 +24,13 @@ public class PostIndexService {
 
         PostEsDocument doc = PostEsDocument.builder()
                 .postId(mongo.getPostId().toHexString())
-                .userId(mongo.getUserId().toHexString())        // 사용자 ID 추가
+                .userId(mongo.getUserId())            // String userId 그대로 사용
                 .boardType(mongo.getBoardType())
                 .title(mongo.getTitle())
                 .content(mongo.getContent())
                 .attachments(mongo.getAttachments())
                 .likeCount(mongo.getLikeCount())
-                .createdAt(odt)                                  // 변환된 OffsetDateTime
+                .createdAt(odt)
                 .build();
 
         esRepo.save(doc);

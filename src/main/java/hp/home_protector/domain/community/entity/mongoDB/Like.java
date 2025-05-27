@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Like {
     @Id
     private ObjectId likeId;
-    private ObjectId userId;
+    private String userId;
     private ObjectId postId;
     private LocalDateTime createdAt;
 }

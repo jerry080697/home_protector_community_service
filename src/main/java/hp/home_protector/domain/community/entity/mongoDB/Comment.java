@@ -18,7 +18,7 @@ public class Comment {
     private ObjectId commentId;
     @Indexed
     private ObjectId postId;
-    private ObjectId userId;
+    private String userId;
     private String content;
     private LocalDateTime createdAt;
 }
