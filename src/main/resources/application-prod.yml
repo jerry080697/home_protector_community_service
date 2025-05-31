@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: prod
   servlet:
-    context-path: /community
+    context-path: /communities
 
     multipart:
       max-file-size: 10MB      # 개별 파일 최대 10MB
