@@ -2,9 +2,6 @@ spring:
   config:
     activate:
       on-profile: dev
-
-  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  # 애플리케이션의 컨텍스트 경로를 /information 으로 설정
   servlet:
     context-path: /community-service
 
