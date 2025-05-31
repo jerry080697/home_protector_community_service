@@ -1,32 +1,31 @@
 spring:
   config:
     activate:
-      on-profile: aws
+      on-profile: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB      # 개별 파일 최대 10MB
+      max-request-size: 100MB  # 전체 요청(여러 파일 합산) 최대 100MB
 
-  datasource:
-    url:
-    username:
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector
+      database: homeprotector
 
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        auto_quote_keyword: false
-        globally_quoted_identifiers: false
-        format_sql: true
-        show_sql: true
+  elasticsearch:
+    uris: http://10.0.51.192:9200
+oci:
+  objectstorage:
+    region: ap-chuncheon-1
+    namespace: axcpinxjr6te
+    bucket: home-protector-images
 
 logging:
   level:
-    org:
-      hibernate:
-        orm:
-          jdbc:
-            bind: INFO
-
+    root: INFO
+    org.springframework.security: DEBUG
+    hp.home_protector.domain.community.security.JwtAuthFilter: INFO
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 jwt:
-  key: secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey
-  success : "http://localhost:3000"
+  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
+  expiration: 3000

@@ -10,13 +10,13 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://root:1234@mycluster.iehorij.mongodb.net
-      database: community
+      database: homeprotector
 
   elasticsearch:
     # 로컬 개발 환경에서는 localhost 사용
-    #uris: http://localhost:9200
+    uris: http://localhost:9200
     # OCI 인스턴스에 띄운 Elasticsearch 연결 시 주석 해제
-    uris: http://158.179.163.249:9200
+    #uris: http://158.179.163.249:9200
 
 oci:
   objectstorage:
