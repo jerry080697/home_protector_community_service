@@ -31,14 +31,21 @@ jobs:
           cache-from: type=gha # gha = Github Actions
           cache-to: type=gha,mode=max
 
-      # - name: Pull from docker hub and deploy
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     username: ${{ secrets.REMOTE_USERNAME }}
-      #     host: ${{ secrets.REMOTE_HOST }}
-      #     key: ${{ secrets.REMOTE_KEY }}
-      #     script: |
-      #       cd /home/***/Backend
-      #       sudo docker compose down
-      #       sudo docker image rm ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ secrets.DOCKER_IMAGE }} -f
-      #       sudo docker compose up -d
+      - name: Pull from docker hub and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.REMOTE_USERNAME }}
+          host: ${{ secrets.REMOTE_HOST }}
+          key: ${{ secrets.REMOTE_KEY }}
+          script: |
+            cd /home/***/
+            export KUBECONFIG="kubeconfig-homeprotector.yaml"
+
+            # 배포
+            kubectl apply -f ${{ secrets.DOCKER_REPOSITORY }}.yml
+            # 배포 상태 확인
+            kubectl rollout status deployment/${{ secrets.DOCKER_REPOSITORY }}
+
+            # 서비스 상태 확인
+            kubectl get service ${{ secrets.DOCKER_REPOSITORY }}
+            kubectl get pods -l app=${{ secrets.DOCKER_REPOSITORY }}
