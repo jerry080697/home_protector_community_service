@@ -50,9 +50,4 @@ COPY --from=build /app/build/libs/*.jar /app/community-server.jar
 # 로컬에 있는 .oci 디렉토리를 컨테이너에 복사
 COPY .oci /root/.oci
 
-# JAR 파일 실행
-ENTRYPOINT ["java", "-jar", "/app/community-server.jar"]
-# 빌드 이미지에서 생성된 JAR 파일을 런타임 이미지로 복사
-COPY --from=build /app/build/libs/*.jar /app/community-server.jar
-
 ENTRYPOINT ["java","-jar","/app/community-server.jar"]
