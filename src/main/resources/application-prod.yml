@@ -2,7 +2,12 @@ spring:
   config:
     activate:
       on-profile: dev
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 애플리케이션의 컨텍스트 경로를 /information 으로 설정
   servlet:
+    context-path: /community-service
+
     multipart:
       max-file-size: 10MB      # 개별 파일 최대 10MB
       max-request-size: 100MB  # 전체 요청(여러 파일 합산) 최대 100MB
@@ -13,6 +18,7 @@ spring:
 
   elasticsearch:
     uris: http://10.0.51.192:9200
+
 oci:
   objectstorage:
     region: ap-chuncheon-1
@@ -25,6 +31,7 @@ logging:
     org.springframework.security: DEBUG
     hp.home_protector.domain.community.security.JwtAuthFilter: INFO
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
 jwt:
-  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
+  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2Vyc2Vyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
   expiration: 3000
