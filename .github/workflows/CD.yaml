@@ -27,11 +27,20 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ secrets.DOCKER_IMAGE }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
           cache-from: type=gha # gha = Github Actions
           cache-to: type=gha,mode=max
 
-      - name: Pull from docker hub and deploy
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Kubernetes
         uses: appleboy/ssh-action@master
         with:
           username: ${{ secrets.REMOTE_USERNAME }}
@@ -40,12 +49,14 @@ jobs:
           script: |
             cd /home/***/
             export KUBECONFIG="kubeconfig-homeprotector.yaml"
-
+            # YAML 파일에서 이미지 태그를 커밋 SHA로 업데이트
+            sed -i "s|image: .*${{ secrets.DOCKER_REPOSITORY }}:.*|image: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}|g" ${{ secrets.DOCKER_REPOSITORY }}.yml
+            
             # 배포
             kubectl apply -f ${{ secrets.DOCKER_REPOSITORY }}.yml
+            
             # 배포 상태 확인
             kubectl rollout status deployment/${{ secrets.DOCKER_REPOSITORY }}
-
             # 서비스 상태 확인
             kubectl get service ${{ secrets.DOCKER_REPOSITORY }}
             kubectl get pods -l app=${{ secrets.DOCKER_REPOSITORY }}
