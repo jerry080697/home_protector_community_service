@@ -10,7 +10,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector
-      database: homeprotector
 
   elasticsearch:
     uris: http://10.0.51.192:9200
