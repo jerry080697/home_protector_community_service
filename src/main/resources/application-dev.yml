@@ -2,7 +2,6 @@ spring:
   config:
     activate:
       on-profile: dev
-
   servlet:
     multipart:
       max-file-size: 10MB      # 개별 파일 최대 10MB
@@ -10,27 +9,27 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://admin:homeprotector2025!@localhost:27017/homeprotector?authSource=admin
+      uri: mongodb+srv://root:1234@mycluster.iehorij.mongodb.net
+      database: homeprotector
 
   elasticsearch:
     # 로컬 개발 환경에서는 localhost 사용
     uris: http://localhost:9200
     # OCI 인스턴스에 띄운 Elasticsearch 연결 시 주석 해제
-    # uris: http://158.179.163.249:9200
+    #uris: http://158.179.163.249:9200
 
 oci:
   objectstorage:
-    region:    ap-chuncheon-1
+    region: ap-chuncheon-1
     namespace: axcpinxjr6te
-    bucket:    home-protector-images
+    bucket: home-protector-images
 
 logging:
   level:
-    root:                                                              INFO
-    org.springframework.security:                                      DEBUG
-    hp.home_protector.domain.community.security.JwtAuthFilter:        INFO
-    org.springframework.data.mongodb.core.MongoTemplate:                DEBUG
-
+    root: INFO
+    org.springframework.security: DEBUG
+    hp.home_protector.domain.community.security.JwtAuthFilter: INFO
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 jwt:
-  secret:     b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
+  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
   expiration: 3000
