@@ -104,32 +104,80 @@ import java.io.IOException;
 import java.security.Key;
 import java.util.Base64;
 
+//@Component
+//public class JwtAuthFilter extends OncePerRequestFilter {
+//
+//    @Value("${jwt.secret}")
+//    private String secretKeyBase64;
+//    private Key getSigningKey() {
+//        byte[] decodedKey = Base64.getDecoder().decode(secretKeyBase64);
+//        return new SecretKeySpec(decodedKey, "HmacSHA512");
+//    }
+//
+//    private String resolveToken(HttpServletRequest request) {
+//        String bearer = request.getHeader("Authorization");
+//        if (bearer != null && bearer.startsWith("Bearer ")) {
+//            return bearer.substring(7);
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) {
+//        // 로그인/회원가입 엔드포인트, OPTIONS 프리플라이트 등 제외
+//        String path = request.getRequestURI();
+//        return HttpMethod.OPTIONS.matches(request.getMethod())
+//                || path.startsWith("/auth/");
+//    }
+//
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request,
+//                                    HttpServletResponse response,
+//                                    FilterChain filterChain)
+//            throws ServletException, IOException {
+//        // ① 헤더 확인
+//        String token = resolveToken(request);
+//        System.out.println("▶ JwtAuthFilter: token=" + token);
+//
+//        if (token != null) {
+//            try {
+//                Claims claims = Jwts.parserBuilder()
+//                        .setSigningKey(getSigningKey())
+//                        .build()
+//                        .parseClaimsJws(token)
+//                        .getBody();
+//
+//                // ② 토큰 잘 파싱됐는지 확인
+//                String userId = claims.getSubject();
+//                System.out.println("▶ JwtAuthFilter: userId=" + userId);
+//
+//                request.setAttribute("X-User-Id", userId);
+//                boolean isAdmin = "ADMIN".equalsIgnoreCase(claims.get("role", String.class));
+//                request.setAttribute("X-Is-Admin", isAdmin);
+//                System.out.println("▶ JwtAuthFilter: role(유저면 false, admin이면 true)=" + isAdmin);
+//
+//            } catch (JwtException e) {
+//                e.printStackTrace();
+//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                response.setContentType("application/json;charset=UTF-8");
+//                response.getWriter()
+//                        .write("{\"error\":\"Invalid or expired JWT token\"}");
+//                return;
+//            }
+//        }
+//        filterChain.doFilter(request, response);
+//    }
+//}
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Value("${jwt.secret}")
     private String secretKeyBase64;
 
-    // HS512 서명 방식을 사용하기 위해 SecretKeySpec으로 변경
     private Key getSigningKey() {
+        // ✅ 로그인 서비스 방식으로 맞춤 (SecretKeySpec 사용)
         byte[] decodedKey = Base64.getDecoder().decode(secretKeyBase64);
-        return new SecretKeySpec(decodedKey, "HmacSHA512");
-    }
-
-    private String resolveToken(HttpServletRequest request) {
-        String bearer = request.getHeader("Authorization");
-        if (bearer != null && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
-        }
-        return null;
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        // 로그인/회원가입 엔드포인트, OPTIONS 프리플라이트 등 제외
-        String path = request.getRequestURI();
-        return HttpMethod.OPTIONS.matches(request.getMethod())
-                || path.startsWith("/auth/");
+        return new SecretKeySpec(decodedKey, "HmacSHA512"); // HS512에 맞춤
     }
 
     @Override
@@ -138,10 +186,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        // ① 헤더 확인
         String token = resolveToken(request);
-        System.out.println("▶ JwtAuthFilter: token=" + token);
-
         if (token != null) {
             try {
                 Claims claims = Jwts.parserBuilder()
@@ -150,25 +195,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         .parseClaimsJws(token)
                         .getBody();
 
-                // ② 토큰 잘 파싱됐는지 확인
-                String userId = claims.getSubject();
-                System.out.println("▶ JwtAuthFilter: userId=" + userId);
-
-                request.setAttribute("X-User-Id", userId);
-                boolean isAdmin = "ADMIN".equalsIgnoreCase(claims.get("role", String.class));
-                request.setAttribute("X-Is-Admin", isAdmin);
-                System.out.println("▶ JwtAuthFilter: role(유저면 false, admin이면 true)=" + isAdmin);
-
+                request.setAttribute("X-User-Id", claims.getSubject());
+                String role = (String) claims.get("role");
+                request.setAttribute("X-Is-Admin", "ADMIN".equals(role));
             } catch (JwtException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // ❗ 디버깅 로그
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json;charset=UTF-8");
-                response.getWriter()
-                        .write("{\"error\":\"Invalid or expired JWT token\"}");
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Invalid or expired JWT token\"}");
                 return;
             }
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        String bearer = request.getHeader("Authorization");
+        if (bearer != null && bearer.startsWith("Bearer ")) {
+            return bearer.substring(7);
+        }
+        return null;
     }
 }
