@@ -83,22 +83,28 @@ public class PostService {
         return saved;
     }
 
-    /** 카테고리별 게시글 목록 조회 */
+    /** 카테고리별 게시글 목록 조회 (createdAt, commentCount 포함) */
     public List<PostResponseDTO> getPostsByCategory(BoardType category) {
         return postRepository.findByBoardType(
                         category,
                         Sort.by(Sort.Direction.DESC, "createdAt")
                 ).stream()
-                .map(p -> PostResponseDTO.builder()
-                        .postId(p.getPostId().toHexString())
-                        .userId(p.getUserId())
-                        .title(p.getTitle())
-                        .content(p.getContent())
-                        .category(p.getBoardType())
-                        .attachments(p.getAttachments())
-                        .likeCount(p.getLikeCount())
-                        .build()
-                )
+                .map(p -> {
+                    // 댓글 개수를 Repository에서 조회
+                    int commentCnt = commentRepository.countByPostId(p.getPostId());
+
+                    return PostResponseDTO.builder()
+                            .postId(p.getPostId().toHexString())
+                            .userId(p.getUserId())
+                            .title(p.getTitle())
+                            .content(p.getContent())
+                            .category(p.getBoardType())
+                            .attachments(p.getAttachments())
+                            .likeCount(p.getLikeCount())
+                            .createdAt(p.getCreatedAt())
+                            .commentCount(commentCnt)
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 
@@ -108,6 +114,7 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
+        // 1) 댓글 목록
         List<CommentResponseDTO> comments = commentRepository
                 .findByPostId(postId, Sort.by(Sort.Direction.ASC, "createdAt"))
                 .stream()
@@ -118,6 +125,9 @@ public class PostService {
                         .createdAt(c.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
+
+        // 2) 댓글 개수
+        int commentCnt = commentRepository.countByPostId(postId);
 
         return PostDetailResponseDTO.builder()
                 .postId(post.getPostId().toHexString())
@@ -130,6 +140,7 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .comments(comments)
+                .commentCount(commentCnt)
                 .build();
     }
 

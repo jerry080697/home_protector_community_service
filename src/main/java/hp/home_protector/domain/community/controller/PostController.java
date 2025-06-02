@@ -55,6 +55,8 @@ public class PostController {
                 .category(saved.getBoardType())
                 .attachments(saved.getAttachments())
                 .likeCount(saved.getLikeCount())
+                .createdAt(saved.getCreatedAt())
+                .commentCount(0)
                 .build();
 
         return ApiResponse.success("COMMON200", "게시글 생성 완료", result);

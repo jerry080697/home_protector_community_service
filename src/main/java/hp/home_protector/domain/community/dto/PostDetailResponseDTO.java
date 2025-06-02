@@ -18,4 +18,5 @@ public class PostDetailResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<CommentResponseDTO> comments;
+    private int commentCount;
 }
