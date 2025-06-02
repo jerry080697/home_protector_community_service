@@ -2,6 +2,8 @@ package hp.home_protector.domain.community.dto;
 
 import hp.home_protector.domain.community.entity.BoardType;
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,4 +20,6 @@ public class PostResponseDTO {
     private BoardType category;
     private List<String> attachments;
     private int likeCount;
+    private LocalDateTime createdAt;
+    private int commentCount;
 }

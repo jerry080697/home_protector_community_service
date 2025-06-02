@@ -10,5 +10,6 @@ import java.util.List;
 public interface CommentRepository extends MongoRepository<Comment, ObjectId> {
     List<Comment> findByPostId(ObjectId postId, Sort sort);
     long deleteByPostId(ObjectId postId);
+    int countByPostId(ObjectId postId);
 }
 
