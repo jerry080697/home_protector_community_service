@@ -18,10 +18,6 @@ spring:
     connection-timeout: 3s
     socket-timeout: 3s
 
-server:
-  servlet:
-    context-path: /communities
-
 oci:
   objectstorage:
     region: ap-chuncheon-1
