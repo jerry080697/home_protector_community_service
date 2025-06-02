@@ -10,11 +10,10 @@ spring:
 
   data:
     mongodb:
-      # 프로덕션에서는 읽기 전용 타깃(10.0.50.136)으로 연결
-      #uri: mongodb://readonlyUser:readonlyPassword@10.0.50.136:27017/homeprotector?authSource=admin
       uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector?authSource=admin
   elasticsearch:
     uris: http://10.0.51.192:9200
+    #uris: http://localhost:9200
     connection-timeout: 3s
     socket-timeout: 3s
 
