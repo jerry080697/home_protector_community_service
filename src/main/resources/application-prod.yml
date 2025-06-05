@@ -11,15 +11,14 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector?authSource=admin
-
-  # Elasticsearch 설정은 반드시 spring.elasticsearch.uris 로 시작
   elasticsearch:
     uris: http://10.0.51.192:9200
 
-# custom.mongodb.read-uri 등은 @Value로 직접 읽어 옵니다.
-custom:
-  mongodb:
-    read-uri: mongodb://admin:homeprotector2025!@10.0.50.136:27017/homeprotector?authSource=admin
+oci:
+  objectstorage:
+    region: ap-chuncheon-1
+    namespace: axcpinxjr6te
+    bucket: home-protector-images
 
 logging:
   level:
@@ -29,4 +28,4 @@ logging:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 jwt:
-  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rYW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
+  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
