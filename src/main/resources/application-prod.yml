@@ -10,7 +10,14 @@ spring:
 
   data:
     mongodb:
+      # 기본(default) 접속 — 쓰기(INSERT/UPDATE/DELETE)는 VM2(Source)로
       uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector?authSource=admin
+
+    # 읽기 전용(Target) DB URI를 별도 프로퍼티로 추가
+  custom:
+    mongodb:
+      read-uri: mongodb://admin:homeprotector2025!@10.0.50.136:27017/homeprotector?authSource=admin
+
   elasticsearch:
     uris: http://10.0.51.192:9200
 
