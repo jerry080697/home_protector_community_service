@@ -2,17 +2,15 @@ spring:
   config:
     activate:
       on-profile: prod
-  servlet:
-    context-path: /communities
 
+  servlet:
     multipart:
-      max-file-size: 10MB      # 개별 파일 최대 10MB
-      max-request-size: 100MB  # 전체 요청(여러 파일 합산) 최대 100MB
+      max-file-size: 10MB
+      max-request-size: 100MB
 
   data:
     mongodb:
-      uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector
-
+      uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector?authSource=admin
   elasticsearch:
     uris: http://10.0.51.192:9200
 
@@ -30,5 +28,4 @@ logging:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 jwt:
-  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2Vyc2Vyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
-  expiration: 3000
+  secret: b2F1dGhzZXJ2ZXJzZWNyZXRhY2Nlc3N0b2tlbm9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW9hdXRoc2VydmVyc2VjcmV0YWNjZXNzdG9rZW5vYXV0aHNlcnZlcnNlY3JldGFjY2Vzc3Rva2Vu
