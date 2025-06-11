@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -99,21 +100,39 @@ public class PostController {
                 .build();
         return ApiResponse.success("COMMON200", "좋아요 취소", dto);
     }
-
-    @Operation(summary = "자유게시판 게시글 조회 API")
+//
+//    @Operation(summary = "자유게시판 게시글 조회 API")
+//    @GetMapping("/free")
+//    public ApiResponse<List<PostResponseDTO>> getFreePosts() {
+//        List<PostResponseDTO> list = postService.getPostsByCategory(BoardType.FREE);
+//        return ApiResponse.success("COMMON200", "자유게시판 조회 성공", list);
+//    }
+//
+//    @Operation(summary = "정보공유게시판 게시글 조회 API")
+//    @GetMapping("/info")
+//    public ApiResponse<List<PostResponseDTO>> getInfoPosts() {
+//        List<PostResponseDTO> list = postService.getPostsByCategory(BoardType.INFO);
+//        return ApiResponse.success("COMMON200", "정보공유게시판 조회 성공", list);
+//    }
+    @Operation(summary = "자유게시판 게시글 조회 API (페이징)")
     @GetMapping("/free")
-    public ApiResponse<List<PostResponseDTO>> getFreePosts() {
-        List<PostResponseDTO> list = postService.getPostsByCategory(BoardType.FREE);
-        return ApiResponse.success("COMMON200", "자유게시판 조회 성공", list);
+    public ApiResponse<Page<PostResponseDTO>> getFreePosts(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
+    Page<PostResponseDTO> result = postService.getPostsByCategory(BoardType.FREE, page, size);
+    return ApiResponse.success("COMMON200", "자유게시판 조회 성공", result);
     }
 
-    @Operation(summary = "정보공유게시판 게시글 조회 API")
+    @Operation(summary = "정보공유게시판 게시글 조회 API (페이징)")
     @GetMapping("/info")
-    public ApiResponse<List<PostResponseDTO>> getInfoPosts() {
-        List<PostResponseDTO> list = postService.getPostsByCategory(BoardType.INFO);
-        return ApiResponse.success("COMMON200", "정보공유게시판 조회 성공", list);
+    public ApiResponse<Page<PostResponseDTO>> getInfoPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<PostResponseDTO> result = postService.getPostsByCategory(BoardType.INFO, page, size);
+        return ApiResponse.success("COMMON200", "정보공유게시판 조회 성공", result);
     }
-
     @Operation(summary = "게시글 수정 API")
     @PatchMapping("/{postId}")
     public ApiResponse<PostResponseDTO> updatePost(
