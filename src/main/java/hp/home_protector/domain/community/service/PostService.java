@@ -9,6 +9,8 @@ import hp.home_protector.domain.community.repository.CommentRepository;
 import hp.home_protector.domain.community.repository.PostRepository;
 import hp.home_protector.domain.community.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,9 @@ public class PostService {
         this.postIndexService = postIndexService;
     }
 
-    /** 이미지 없이 게시글 생성 */
+    /**
+     * 이미지 없이 게시글 생성
+     */
     @Transactional
     public Post createPost(String userId, PostRequestDTO dto) {
         List<String> imageUrls = Collections.emptyList();
@@ -62,7 +66,9 @@ public class PostService {
         return saved;
     }
 
-    /** 이미지 URL 리스트를 받아 게시글 생성 */
+    /**
+     * 이미지 URL 리스트를 받아 게시글 생성
+     */
     @Transactional
     public Post createPostWithImages(String userId,
                                      PostRequestDTO dto,
@@ -83,16 +89,40 @@ public class PostService {
         return saved;
     }
 
-    /** 카테고리별 게시글 목록 조회 (createdAt, commentCount 포함) */
-    public List<PostResponseDTO> getPostsByCategory(BoardType category) {
-        return postRepository.findByBoardType(
-                        category,
-                        Sort.by(Sort.Direction.DESC, "createdAt")
-                ).stream()
+//    /**
+//     * 카테고리별 게시글 목록 조회 (createdAt, commentCount 포함)
+//     */
+//    public List<PostResponseDTO> getPostsByCategory(BoardType category) {
+//        return postRepository.findByBoardType(
+//                        category,
+//                        Sort.by(Sort.Direction.DESC, "createdAt")
+//                ).stream()
+//                .map(p -> {
+//                    // 댓글 개수를 Repository에서 조회
+//                    int commentCnt = commentRepository.countByPostId(p.getPostId());
+//
+//                    return PostResponseDTO.builder()
+//                            .postId(p.getPostId().toHexString())
+//                            .userId(p.getUserId())
+//                            .title(p.getTitle())
+//                            .content(p.getContent())
+//                            .category(p.getBoardType())
+//                            .attachments(p.getAttachments())
+//                            .likeCount(p.getLikeCount())
+//                            .createdAt(p.getCreatedAt())
+//                            .commentCount(commentCnt)
+//                            .build();
+//                })
+//                .collect(Collectors.toList());
+//    }
+    /**
+     * 카테고리별 페이징 게시글 조회
+     */
+    public Page<PostResponseDTO> getPostsByCategory(BoardType category, int page, int size) {
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        return postRepository.findByBoardType(category, pageable)
                 .map(p -> {
-                    // 댓글 개수를 Repository에서 조회
                     int commentCnt = commentRepository.countByPostId(p.getPostId());
-
                     return PostResponseDTO.builder()
                             .postId(p.getPostId().toHexString())
                             .userId(p.getUserId())
@@ -104,11 +134,12 @@ public class PostService {
                             .createdAt(p.getCreatedAt())
                             .commentCount(commentCnt)
                             .build();
-                })
-                .collect(Collectors.toList());
+                });
     }
 
-    /** 게시글 상세 조회 */
+    /**
+     * 게시글 상세 조회
+     */
     public PostDetailResponseDTO getPostDetail(String postIdHex) {
         ObjectId postId = new ObjectId(postIdHex);
         Post post = postRepository.findById(postId)
@@ -144,7 +175,9 @@ public class PostService {
                 .build();
     }
 
-    /** 게시글 수정 + ES 색인 갱신 */
+    /**
+     * 게시글 수정 + ES 색인 갱신
+     */
     @Transactional
     public Post updatePost(String userId,
                            String postIdHex,
@@ -172,7 +205,9 @@ public class PostService {
         return updated;
     }
 
-    /** 게시글 삭제 + ES 문서 삭제 */
+    /**
+     * 게시글 삭제 + ES 문서 삭제
+     */
     @Transactional
     public void deletePost(String userId, String postIdHex) {
         ObjectId postId = new ObjectId(postIdHex);
@@ -187,7 +222,9 @@ public class PostService {
         postIndexService.delete(postIdHex);
     }
 
-    /** 댓글 작성 */
+    /**
+     * 댓글 작성
+     */
     @Transactional
     public CommentResponseDTO addComment(String userId,
                                          String postIdHex,
@@ -213,7 +250,9 @@ public class PostService {
                 .build();
     }
 
-    /** 댓글 수정 */
+    /**
+     * 댓글 수정
+     */
     @Transactional
     public CommentResponseDTO updateComment(String userId,
                                             String commentIdHex,
@@ -237,7 +276,9 @@ public class PostService {
                 .build();
     }
 
-    /** 댓글 삭제 (작성자 or ADMIN) */
+    /**
+     * 댓글 삭제 (작성자 or ADMIN)
+     */
     @Transactional
     public void deleteComment(String userId, String commentIdHex) {
         ObjectId commentId = new ObjectId(commentIdHex);

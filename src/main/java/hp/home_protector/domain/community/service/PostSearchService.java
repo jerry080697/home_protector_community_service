@@ -1,5 +1,6 @@
 package hp.home_protector.domain.community.service;
 
+
 import hp.home_protector.domain.community.dto.PostResponseDTO;
 import hp.home_protector.domain.community.entity.elasticsearch.PostEsDocument;
 import hp.home_protector.domain.community.repository.PostEsRepository;
