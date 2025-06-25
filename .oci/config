@@ -1,7 +1,1 @@
-[DEFAULT]
-user=ocid1.user.oc1..aaaaaaaapamic3mllkvdl4nairhm5cd6hrqwaq7poefnzyhipufgybrzen4a
-fingerprint=6a:93:fe:18:de:4d:74:11:74:54:a6:b1:ac:91:0a:39
-tenancy=ocid1.tenancy.oc1..aaaaaaaa2xpasmtepvixrdgqpiwqz6irjuwcthy4ea4cmwyoh43z4vnnrvja
-region=ap-chuncheon-1
-key_file=/root/.oci/oci_api_key.pem
-
+Config 내용
