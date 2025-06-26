@@ -10,14 +10,14 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://admin:homeprotector2025!@10.0.51.19:27017/homeprotector?authSource=admin
+      uri: uri
   elasticsearch:
     uris: URI
 oci:
   objectstorage:
-    region: ap-chuncheon-1
-    namespace: axcpinxjr6te
-    bucket: home-protector-images
+    region: region
+    namespace: namespace
+    bucket: bucket
 
 logging:
   level:
